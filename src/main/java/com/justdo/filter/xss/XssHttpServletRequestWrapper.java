@@ -1,4 +1,4 @@
-package com.justdo.common.xss;
+package com.justdo.filter.xss;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;

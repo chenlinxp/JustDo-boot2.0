@@ -1,11 +1,13 @@
 package com.justdo.common.aspect;
 
 import com.google.gson.Gson;
-import com.suke.czx.common.utils.HttpContextUtils;
-import com.suke.czx.common.utils.IPUtils;
-import com.suke.czx.modules.sys.entity.SysLog;
-import com.suke.czx.modules.sys.entity.SysUser;
-import com.suke.czx.modules.sys.service.SysLogService;
+import com.justdo.common.annotation.Log;
+import com.justdo.common.utils.HttpContextUtils;
+import com.justdo.common.utils.IPUtils;
+
+import com.justdo.system.systemlog.entity.SystemLog;
+import com.justdo.system.systemlog.service.SystemLogService;
+import com.justdo.system.user.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,11 +30,11 @@ import java.util.Date;
  */
 @Aspect
 @Component
-public class SysLogAspect {
+public class LogAspect {
 	@Autowired
-	private SysLogService sysLogService;
+	private SystemLogService systemLogService;
 	
-	@Pointcut("@annotation(com.suke.czx.common.annotation.SysLog)")
+	@Pointcut("@annotation(com.justdo.common.annotation.Log)")
 	public void logPointCut() { 
 		
 	}
@@ -55,23 +57,24 @@ public class SysLogAspect {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();
 
-		SysLog sysLog = new SysLog();
-		com.suke.czx.common.annotation.SysLog syslog = method.getAnnotation(com.suke.czx.common.annotation.SysLog.class);
-		if(syslog != null){
+		SystemLog systemLog = new SystemLog();
+
+		Log log = method.getAnnotation(Log.class);
+		if(systemLog != null){
 			//注解上的描述
-			sysLog.setOperation(syslog.value());
+			systemLog.setOperation(log.value());
 		}
 
 		//请求的方法名
 		String className = joinPoint.getTarget().getClass().getName();
 		String methodName = signature.getName();
-		sysLog.setMethod(className + "." + methodName + "()");
+		systemLog.setMethod(className + "." + methodName + "()");
 
 		//请求的参数
 		Object[] args = joinPoint.getArgs();
 		try{
 			String params = new Gson().toJson(args[0]);
-			sysLog.setParams(params);
+			systemLog.setParams(params);
 		}catch (Exception e){
 
 		}
@@ -79,15 +82,15 @@ public class SysLogAspect {
 		//获取request
 		HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
 		//设置IP地址
-		sysLog.setIp(IPUtils.getIpAddr(request));
+		systemLog.setIp(IPUtils.getIpAddr(request));
 
 		//用户名
-		String username = ((SysUser) SecurityUtils.getSubject().getPrincipal()).getUsername();
-		sysLog.setUsername(username);
+		String username = ((User) SecurityUtils.getSubject().getPrincipal()).getUsername();
+		systemLog.setUsername(username);
 
-		sysLog.setTime(time);
-		sysLog.setCreateDate(new Date());
+		systemLog.setTime(time);
+		systemLog.setCreateDate(new Date());
 		//保存系统日志
-		sysLogService.save(sysLog);
+		systemLogService.save(systemLog);
 	}
 }

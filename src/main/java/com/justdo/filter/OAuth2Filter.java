@@ -1,6 +1,7 @@
-package com.justdo.authentication;
+package com.justdo.filter;
 
 import com.google.gson.Gson;
+import com.justdo.authentication.OAuth2Token;
 import com.justdo.common.utils.R;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;

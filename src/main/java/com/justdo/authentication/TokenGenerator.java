@@ -1,6 +1,6 @@
 package com.justdo.authentication;
 
-import com.suke.czx.common.exception.RRException;
+import com.justdo.common.exception.RRException;
 
 import java.security.MessageDigest;
 import java.util.UUID;

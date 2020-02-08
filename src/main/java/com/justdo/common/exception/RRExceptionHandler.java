@@ -1,6 +1,6 @@
 package com.justdo.common.exception;
 
-import com.suke.czx.common.utils.R;
+import com.justdo.common.utils.R;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

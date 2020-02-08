@@ -1,6 +1,6 @@
 package com.justdo.config;
 
-import com.justdo.authentication.OAuth2Filter;
+import com.justdo.filter.OAuth2Filter;
 import com.justdo.authentication.OAuth2Realm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;

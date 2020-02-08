@@ -1,4 +1,4 @@
-package com.justdo.common.xss;
+package com.justdo.filter.xss;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,8 +1,9 @@
 package com.justdo.authentication;
 
-import com.suke.czx.modules.sys.entity.SysUser;
-import com.suke.czx.modules.sys.entity.SysUserToken;
-import com.suke.czx.modules.sys.service.ShiroService;
+
+import com.justdo.system.user.entity.User;
+import com.justdo.system.user.entity.UserToken;
+import com.justdo.system.user.service.ShiroService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -35,7 +36,7 @@ public class OAuth2Realm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SysUser user = (SysUser)principals.getPrimaryPrincipal();
+        User user = (User)principals.getPrimaryPrincipal();
         Long userId = user.getUserId();
 
         //用户权限列表
@@ -54,14 +55,14 @@ public class OAuth2Realm extends AuthorizingRealm {
         String accessToken = (String) token.getPrincipal();
 
         //根据accessToken，查询用户信息
-        SysUserToken tokenEntity = shiroService.queryByToken(accessToken);
+        UserToken tokenEntity = shiroService.queryByToken(accessToken);
         //token失效
         if(tokenEntity == null || tokenEntity.getExpireTime().getTime() < System.currentTimeMillis()){
             throw new IncorrectCredentialsException("token失效，请重新登录");
         }
 
         //查询用户信息
-        SysUser user = shiroService.queryUser(tokenEntity.getUserId());
+        User user = shiroService.queryUser(tokenEntity.getUserId());
         //账号锁定
         if(user.getStatus() == 0){
             throw new LockedAccountException("账号已被锁定,请联系管理员");

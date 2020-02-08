@@ -1,6 +1,6 @@
 package com.justdo.common.utils;
 
-import com.suke.czx.modules.sys.entity.SysUser;
+import com.justdo.system.user.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -24,8 +24,8 @@ public class ShiroUtils {
 		return SecurityUtils.getSubject();
 	}
 
-	public SysUser getUserEntity() {
-		return (SysUser) SecurityUtils.getSubject().getPrincipal();
+	public User getUserEntity() {
+		return (User) SecurityUtils.getSubject().getPrincipal();
 	}
 
 	public Long getUserId() {

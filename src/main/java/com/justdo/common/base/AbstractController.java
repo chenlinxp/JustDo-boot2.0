@@ -1,7 +1,7 @@
 package com.justdo.common.base;
 
-import com.suke.czx.common.utils.MPPageConvert;
-import com.suke.czx.modules.sys.entity.SysUser;
+import com.justdo.common.utils.MPPageConvert;
+import com.justdo.system.user.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,8 +16,8 @@ public abstract class AbstractController {
 	@Autowired
 	protected MPPageConvert mpPageConvert;
 
-	protected SysUser getUser() {
-		return (SysUser) SecurityUtils.getSubject().getPrincipal();
+	protected User getUser() {
+		return (User) SecurityUtils.getSubject().getPrincipal();
 	}
 
 	protected Long getUserId() {

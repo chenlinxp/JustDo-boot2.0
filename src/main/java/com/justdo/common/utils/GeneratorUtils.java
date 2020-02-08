@@ -1,11 +1,11 @@
 package com.justdo.common.utils;
 
 import cn.hutool.core.date.DateUtil;
-import com.suke.czx.common.exception.RRException;
-import com.suke.czx.modules.gen.entity.ColumnEntity;
-import com.suke.czx.modules.gen.entity.GenConfig;
-import com.suke.czx.modules.gen.entity.InfoRmationSchema;
-import com.suke.czx.modules.gen.entity.TableEntity;
+import com.justdo.common.exception.RRException;
+import com.justdo.system.generator.entity.ColumnEntity;
+import com.justdo.system.generator.entity.GeneratorConfig;
+import com.justdo.system.generator.entity.InfoRmationSchema;
+import com.justdo.system.generator.entity.TableEntity;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -31,7 +31,7 @@ import java.util.zip.ZipOutputStream;
  * @date 2019-06-19 16:02:20
  */
 @Component
-public class GenUtils {
+public class GeneratorUtils {
 
     public List<String> getTemplates(){
         List<String> templates = new ArrayList<String>();
@@ -50,7 +50,7 @@ public class GenUtils {
     /**
      * 生成代码
      */
-    public void generatorCode(GenConfig genConfig,InfoRmationSchema table, List<ColumnEntity> columns, ZipOutputStream zip) {
+    public void generatorCode(GeneratorConfig genConfig, InfoRmationSchema table, List<ColumnEntity> columns, ZipOutputStream zip) {
         //配置信息
         Configuration config = getConfig();
         boolean hasBigDecimal = false;
@@ -103,7 +103,7 @@ public class GenUtils {
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader" );
         Velocity.init(prop);
         String mainPath = genConfig.getMainPath();
-        mainPath = StringUtils.isBlank(mainPath) ? "com.suke.czx" : mainPath;
+        mainPath = StringUtils.isBlank(mainPath) ? "com.justdo" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());

@@ -1,4 +1,4 @@
-package com.justdo.common.xss;
+package com.justdo.filter.xss;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +16,7 @@ public class XssFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 		XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper(

@@ -1,8 +1,8 @@
 package com.justdo.interceptor;
 
-import com.suke.czx.common.annotation.LoginUser;
-import com.suke.czx.modules.sys.entity.SysUser;
-import com.suke.czx.modules.sys.service.SysUserService;
+import com.justdo.common.annotation.LoginUser;
+import com.justdo.system.user.entity.User;
+import com.justdo.system.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -14,18 +14,19 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
  * 有@LoginUser注解的方法参数，注入当前登录用户
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-23 15:38
+ *
+ * @author chenlin
+ * @email 13233669915@qq.com
+ * @date 2019-06-19 16:02:20
  */
 @Component
 public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     @Autowired
-    private SysUserService sysUserService;
+    private UserService userService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(SysUser.class) && parameter.hasParameterAnnotation(LoginUser.class);
+        return parameter.getParameterType().isAssignableFrom(User.class) && parameter.hasParameterAnnotation(LoginUser.class);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
         }
 
         //获取用户信息
-        SysUser user = sysUserService.getById((Long)object);
+        User user = userService.getById((Long)object);
 
         return user;
     }

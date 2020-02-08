@@ -1,6 +1,6 @@
 package com.justdo.config;
 
-import com.justdo.common.xss.XssFilter;
+import com.justdo.filter.xss.XssFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

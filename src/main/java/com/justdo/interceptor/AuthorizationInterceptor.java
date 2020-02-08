@@ -1,10 +1,10 @@
 package com.justdo.interceptor;
 
 
-import com.suke.czx.common.annotation.AuthIgnore;
-import com.suke.czx.common.exception.RRException;
-import com.suke.czx.modules.sys.entity.SysUserToken;
-import com.suke.czx.modules.sys.service.ShiroService;
+import com.justdo.common.annotation.AuthIgnore;
+import com.justdo.common.exception.RRException;
+import com.justdo.system.user.entity.UserToken;
+import com.justdo.system.user.service.ShiroService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 权限(Token)验证
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-23 15:38
+ * @author chenlin
+ * @email 13233669915@qq.com
+ * @date 2019-06-19 16:02:20
  */
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
@@ -55,7 +55,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         //根据accessToken，查询用户信息
-        SysUserToken tokenEntity = shiroService.queryByToken(token);
+        UserToken tokenEntity = shiroService.queryByToken(token);
         //token失效
         if(tokenEntity == null || tokenEntity.getExpireTime().getTime() < System.currentTimeMillis()){
             throw new RRException("token:" + token + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());

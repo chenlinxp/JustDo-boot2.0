@@ -1,4 +1,4 @@
-package com.justdo.common.xss;
+package com.justdo.filter.xss;
 
 import com.justdo.common.exception.RRException;
 import org.apache.commons.lang.StringUtils;
