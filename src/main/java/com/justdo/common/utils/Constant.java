@@ -8,21 +8,15 @@ package com.justdo.common.utils;
  */
 public class Constant {
 
-    public static final String NUMBER_CODE_KEY = "x_springboot:number:code:";
-    public static final String MOBILE_CODE_KEY = "x_springboot:mobile:code:";
+    public static final String NUMBER_CODE_KEY = "justdo:number:code:";
+    public static final String MOBILE_CODE_KEY = "justdo:mobile:code:";
 
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN = 1;
 
 	public static final int CODE_SIZE = 4;
 
-	/**
-	 * 菜单类型
-	 * 
-	 * @author czx
-	 * @email object_czx@163.com
-	 * @date 2016年11月15日 下午1:24:29
-	 */
+
     public enum MenuType {
         /**
          * 目录
@@ -50,10 +44,6 @@ public class Constant {
     
     /**
      * 定时任务状态
-     * 
-     * @author czx
-     * @email object_czx@163.com
-     * @date 2016年12月3日 上午12:07:22
      */
     public enum ScheduleStatus {
         /**

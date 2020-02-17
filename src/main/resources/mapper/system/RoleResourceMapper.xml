@@ -4,10 +4,10 @@
 <mapper namespace="com.justdo.system.role.mapper.RoleResourceMapper">
 
 	<insert id="saveUserMenu">
-		insert into sys_role_menu
+		insert into sys_role_resource
 		(
 			`role_id`, 
-			`menu_id`
+			`mresource`
 		)
 		values
 		<foreach collection="menuIdList" item="item" index="index" separator="," >
@@ -19,7 +19,7 @@
 	</insert>
 
 	<select id="queryMenuIdList" resultType="long">
-		select menu_id from sys_role_menu where role_id = #{value}
+		select resource_id from sys_role_resource where role_id = #{value}
 	</select>
 
 </mapper>

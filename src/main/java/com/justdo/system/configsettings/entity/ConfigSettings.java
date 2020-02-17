@@ -2,6 +2,7 @@ package com.justdo.system.configsettings.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.*;
 
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @Builder
+@TableName("sys_config")
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor

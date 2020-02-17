@@ -19,13 +19,13 @@ import java.util.List;
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
     @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
     @Autowired
     private LoginUserHandlerMethodArgumentResolver loginUserHandlerMethodArgumentResolver;
 
     /**
-     * @Author czx
      * @Description //TODO 因为在shiro中放开了对/app 下的鉴权，所有这里加了一个拦截器针对/app
      * @Date 14:45 2019/4/19
      * @Param [registry]

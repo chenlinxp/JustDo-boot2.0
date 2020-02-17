@@ -1,6 +1,7 @@
 package com.justdo.system.systemlog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.util.Date;
  * @date 2019-06-19 16:02:20
  */
 @Data
+@TableName("sys_log")
 @EqualsAndHashCode(callSuper = true)
 public class SystemLog extends Model<SystemLog> {
 

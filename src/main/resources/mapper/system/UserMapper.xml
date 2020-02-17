@@ -15,8 +15,8 @@
 	<!-- 查询用户的所有权限 -->
 	<select id="queryAllPerms" resultType="string">
 		select m.perms from sys_user_role ur 
-			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
-			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 
+			LEFT JOIN sys_role_resource rm on ur.role_id = rm.role_id
+			LEFT JOIN sys_resource m on rm.resource_id = m.resource_id
 		where ur.user_id = #{userId}
 	</select>
 

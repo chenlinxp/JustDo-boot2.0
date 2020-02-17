@@ -184,6 +184,4 @@ public class LoginController extends AbstractController {
 		return R.error(HttpStatus.SC_UNAUTHORIZED, "unauthorized");
 	}
 
-
-	
 }

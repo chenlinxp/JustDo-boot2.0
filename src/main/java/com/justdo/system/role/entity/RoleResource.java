@@ -2,6 +2,7 @@ package com.justdo.system.role.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.io.Serializable;
  * @date 2019-06-19 16:02:20
  */
 @Data
+@TableName("sys_role_resource")
 @EqualsAndHashCode(callSuper = true)
 public class RoleResource extends Model<RoleResource> implements Serializable {
 	private static final long serialVersionUID = 1L;

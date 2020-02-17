@@ -18,7 +18,7 @@ import java.util.Map;
 public class MPPageConvert {
 
     /**
-     * @Author czx
+     * @Author
      * @Description //TODO 前台传过来的参数转换为MyBatis Plus的Page
      * @Date 17:14 2019/4/18
      * @Param [param]
@@ -38,7 +38,7 @@ public class MPPageConvert {
     }
 
     /**
-     * @Author czx
+     * @Author
      * @Description //TODO 将MyBatis Plus 的Page 转换为前台能用的Page
      * @Date 17:14 2019/4/18
      * @Param [page]

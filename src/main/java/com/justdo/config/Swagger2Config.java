@@ -40,9 +40,9 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //页面标题
-                .title("X-SpringBoot API")
+                .title("jsutdo2.0 API")
                 //创建人
-                .contact("czx")
+                .contact("chenlin")
                 //版本号
                 .version("1.0")
                 //描述

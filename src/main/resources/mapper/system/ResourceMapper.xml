@@ -4,23 +4,23 @@
 <mapper namespace="com.justdo.system.resource.mapper.ResourceMapper">
 	
 	<select id="queryNotButtonList" resultType="com.justdo.system.resource.entity.Resource">
-		select * from sys_menu where type != 2 order by order_num asc 
+		select * from sys_resource where type != 2 order by order_num asc
 	</select>
 
 	
 	<!-- 查询用户的权限列表 --> 
 	<select id="queryUserList" resultType="com.justdo.system.resource.entity.Resource">
-		select distinct m.*,(select p.name from sys_menu p where p.menu_id = m.parent_id) as parentName
+		select distinct m.*,(select p.name from sys_resource p where p.resource_id = m.parent_id) as parentName
 			from sys_user_role ur 
-			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
-			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 
+			LEFT JOIN sys_role_resource rm on ur.role_id = rm.role_id
+			LEFT JOIN sys_resource m on rm.resource_id = m.resource_id
 		where ur.user_id = #{userId} order by m.order_num asc
 	</select>
 
 	<!-- 查询用户的所有菜单ID -->
 	<select id="queryAllMenuId" resultType="long">
-		select distinct rm.menu_id from sys_user_role ur
-			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+		select distinct rm.resource_id from sys_user_role ur
+			LEFT JOIN sys_role_resource rm on ur.role_id = rm.role_id
 		where ur.user_id = #{userId}
 	</select>
 	
