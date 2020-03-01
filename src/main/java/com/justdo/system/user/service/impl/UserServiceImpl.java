@@ -2,7 +2,7 @@ package com.justdo.system.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.justdo.common.exception.RRException;
-import com.justdo.common.utils.Constant;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.role.service.RoleService;
 import com.justdo.system.user.entity.User;
 import com.justdo.system.user.mapper.UserMapper;
@@ -106,7 +106,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 	 */
 	private void checkRole(User user){
 		//如果不是超级管理员，则需要判断用户的角色是否自己创建
-		if(user.getCreateUserId() == Constant.SUPER_ADMIN){
+		if(user.getCreateUserId() == ConstantConfig.SUPER_ADMIN){
 			return ;
 		}
 		

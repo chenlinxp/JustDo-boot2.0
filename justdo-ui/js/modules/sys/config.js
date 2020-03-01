@@ -12,10 +12,10 @@ $(function () {
         height: 385,
         rowNum: 10,
 		rowList : [10,30,50],
-        rownumbers: true, 
-        rownumWidth: 25, 
-        autowidth:true,
         multiselect: true,
+        rownumbers: true, 
+        // rownumWidth: 30,
+        autowidth:true,
         pager: "#jqGridPager",
         jsonReader : {
             root: "page.list",
@@ -24,8 +24,8 @@ $(function () {
             records: "page.totalCount"
         },
         prmNames : {
-            page:"page", 
-            rows:"limit", 
+            page: "page",
+            rows: "limit",
             order: "order"
         },
         gridComplete:function(){

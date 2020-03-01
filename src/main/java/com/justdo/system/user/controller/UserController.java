@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.justdo.common.annotation.Log;
 import com.justdo.common.base.AbstractController;
-import com.justdo.common.utils.Constant;
 import com.justdo.common.utils.R;
 import com.justdo.common.validator.Assert;
 import com.justdo.common.validator.ValidatorUtils;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.user.entity.User;
 import com.justdo.system.user.entity.UserRole;
 import com.justdo.system.user.service.UserRoleService;
@@ -47,7 +47,7 @@ public class UserController extends AbstractController {
 	@RequiresPermissions("sys:user:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//只有超级管理员，才能查看所有管理员列表
-		if(getUserId() != Constant.SUPER_ADMIN){
+		if(getUserId() != ConstantConfig.SUPER_ADMIN){
 			params.put("createUserId", getUserId());
 		}
 

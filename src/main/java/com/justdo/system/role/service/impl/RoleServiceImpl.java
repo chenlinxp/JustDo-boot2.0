@@ -2,7 +2,7 @@ package com.justdo.system.role.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.justdo.common.exception.RRException;
-import com.justdo.common.utils.Constant;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.role.entity.Role;
 import com.justdo.system.role.mapper.RoleMapper;
 import com.justdo.system.role.service.RoleResourceService;
@@ -81,7 +81,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements Rol
 	 */
 	private void checkPrems(Role role){
 		//如果不是超级管理员，则需要判断角色的权限是否超过自己的权限
-		if(role.getCreateUserId() == Constant.SUPER_ADMIN){
+		if(role.getCreateUserId() == ConstantConfig.SUPER_ADMIN){
 			return ;
 		}
 		

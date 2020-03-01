@@ -2,7 +2,7 @@ package com.justdo.system.resource.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.justdo.common.utils.Constant;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.resource.entity.Resource;
 import com.justdo.system.resource.mapper.ResourceMapper;
 import com.justdo.system.resource.service.ResourceService;
@@ -54,7 +54,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper,Resource> im
 	@Override
 	public List<Resource> getUserMenuList(Long userId) {
 		//系统管理员，拥有最高权限
-		if(userId == Constant.SUPER_ADMIN){
+		if(userId == ConstantConfig.SUPER_ADMIN){
 			return getAllMenuList(null);
 		}
 		
@@ -88,7 +88,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper,Resource> im
 		List<Resource> subMenuList = new ArrayList<Resource>();
 		
 		for(Resource entity : menuList){
-			if(entity.getType() == Constant.MenuType.CATALOG.getValue()){//目录
+			if(entity.getType() == ConstantConfig.ResourceType.CATALOG.getValue()){//目录
 				entity.setList(getMenuTreeList(queryListParentId(entity.getResourceId(), menuIdList), menuIdList));
 			}
 			subMenuList.add(entity);

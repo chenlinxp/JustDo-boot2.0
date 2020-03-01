@@ -8,13 +8,13 @@ import com.google.gson.Gson;
 import com.justdo.common.base.AbstractController;
 import com.justdo.common.exception.RRException;
 import com.justdo.common.utils.ConfigConstant;
-import com.justdo.common.utils.Constant;
 import com.justdo.common.utils.R;
 import com.justdo.common.validator.ValidatorUtils;
 import com.justdo.common.validator.group.AliyunGroup;
 import com.justdo.common.validator.group.MinioGroup;
 import com.justdo.common.validator.group.QcloudGroup;
 import com.justdo.common.validator.group.QiniuGroup;
+import com.justdo.config.ConstantConfig;
 import com.justdo.modules.appversion.entity.AppVersion;
 import com.justdo.modules.oss.cloud.CloudStorageConfig;
 import com.justdo.modules.oss.cloud.OSSFactory;
@@ -96,16 +96,16 @@ public class OssController extends AbstractController {
 	@RequiresPermissions("sys:oss:all")
 	public R saveConfig(@RequestBody CloudStorageConfig config){
 
-		if(config.getType() == Constant.CloudService.QINIU.getValue()){
+		if(config.getType() == ConstantConfig.CloudServeType.QINIU.getValue()){
 			//校验七牛数据
 			ValidatorUtils.validateEntity(config, QiniuGroup.class);
-		}else if(config.getType() == Constant.CloudService.ALIYUN.getValue()){
+		}else if(config.getType() == ConstantConfig.CloudServeType.ALIYUN.getValue()){
 			//校验阿里云数据
 			ValidatorUtils.validateEntity(config, AliyunGroup.class);
-		}else if(config.getType() == Constant.CloudService.QCLOUD.getValue()){
+		}else if(config.getType() == ConstantConfig.CloudServeType.QCLOUD.getValue()){
 			//校验腾讯云数据
 			ValidatorUtils.validateEntity(config, QcloudGroup.class);
-		}else if(config.getType() == Constant.CloudService.MINIO.getValue()){
+		}else if(config.getType() == ConstantConfig.CloudServeType.MINIO.getValue()){
 			//校验minio数据
 			ValidatorUtils.validateEntity(config, MinioGroup.class);
 		}

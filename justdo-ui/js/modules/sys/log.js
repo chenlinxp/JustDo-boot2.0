@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'sys/log/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', width: 30, key: true },
+			{ label: 'id', name: 'id', width: 30, key: true ,hidden:true},
 			{ label: '用户名', name: 'username', width: 50 }, 			
 			{ label: '用户操作', name: 'operation', width: 70 }, 			
 			{ label: '请求方法', name: 'method', width: 150 }, 			
@@ -17,7 +17,7 @@ $(function () {
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 
-        rownumWidth: 25, 
+        // rownumWidth: 25,
         autowidth:true,
         multiselect: false,
         pager: "#jqGridPager",

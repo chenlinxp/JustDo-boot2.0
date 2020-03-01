@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
 import com.justdo.common.base.AbstractController;
-import com.justdo.common.utils.Constant;
 import com.justdo.common.utils.R;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.user.entity.User;
 import com.justdo.system.user.service.UserService;
 import com.justdo.system.user.service.UserTokenService;
@@ -60,7 +60,7 @@ public class LoginController extends AbstractController {
 		//生成图片验证码
 		BufferedImage image = producer.createImage(text);
 		//redis 60秒
-		redisTemplate.opsForValue().set(Constant.NUMBER_CODE_KEY + time,text,60, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(ConstantConfig.NUMBER_CODE_KEY + time,text,60, TimeUnit.SECONDS);
 
 		ServletOutputStream out = response.getOutputStream();
 		ImageIO.write(image, "jpg", out);
@@ -81,16 +81,16 @@ public class LoginController extends AbstractController {
 			return R.error("手机号码未注册");
 		}
 
-		String mobile = (String) redisTemplate.opsForValue().get(Constant.MOBILE_CODE_KEY + number);
+		String mobile = (String) redisTemplate.opsForValue().get(ConstantConfig.MOBILE_CODE_KEY + number);
 		if(!StrUtil.isEmpty(mobile)){
 			return R.error("验证码未失效");
 		}
 
 		//生成4位验证码
-		String code = RandomUtil.randomNumbers(Constant.CODE_SIZE);
+		String code = RandomUtil.randomNumbers(ConstantConfig.CODE_SIZE);
 		log.info("==================短信验证码:{}====================",code);
 		//redis 60秒
-		redisTemplate.opsForValue().set(Constant.MOBILE_CODE_KEY + number,code,60, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(ConstantConfig.MOBILE_CODE_KEY + number,code,60, TimeUnit.SECONDS);
 		//调用短信服务去发送
 
 		return R.ok("验证码发送成功");
@@ -102,7 +102,7 @@ public class LoginController extends AbstractController {
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public Map<String, Object> login(String username, String password, String captcha,String randomStr){
 
-		String code_key = (String) redisTemplate.opsForValue().get(Constant.NUMBER_CODE_KEY + randomStr);
+		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.NUMBER_CODE_KEY + randomStr);
 		if(StrUtil.isEmpty(code_key)){
 			return R.error("验证码过期");
 		}
@@ -137,7 +137,7 @@ public class LoginController extends AbstractController {
 	@RequestMapping(value = "/mobile/login", method = RequestMethod.POST)
 	public Map<String, Object> mobileLogin(String mobile, String code){
 
-		String code_key = (String) redisTemplate.opsForValue().get(Constant.MOBILE_CODE_KEY + mobile);
+		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.MOBILE_CODE_KEY + mobile);
 		if(StrUtil.isEmpty(code_key)){
 			return R.error("验证码过期");
 		}

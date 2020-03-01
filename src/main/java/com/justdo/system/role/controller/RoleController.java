@@ -6,11 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.justdo.common.annotation.Log;
 import com.justdo.common.base.AbstractController;
-import com.justdo.common.utils.Constant;
 import com.justdo.common.utils.R;
 import com.justdo.common.validator.ValidatorUtils;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.role.entity.Role;
-import com.justdo.system.role.entity.RoleResource;
 import com.justdo.system.role.service.RoleResourceService;
 import com.justdo.system.role.service.RoleService;
 import lombok.AllArgsConstructor;
@@ -44,7 +43,7 @@ public class RoleController extends AbstractController {
 	public R list(@RequestParam Map<String, Object> params){
 		QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
 		//如果不是超级管理员，则只查询自己创建的角色列表
-		if(getUserId() != Constant.SUPER_ADMIN){
+		if(getUserId() != ConstantConfig.SUPER_ADMIN){
 			queryWrapper.eq("create_user_id",getUserId());
 		}
 
@@ -67,7 +66,7 @@ public class RoleController extends AbstractController {
 		Map<String, Object> map = new HashMap<>();
 		List<Role> list;
 		//如果不是超级管理员，则只查询自己所拥有的角色列表
-		if(getUserId() != Constant.SUPER_ADMIN){
+		if(getUserId() != ConstantConfig.SUPER_ADMIN){
 		 list = roleService.list(Wrappers
 					.<Role>query()
 					.lambda()

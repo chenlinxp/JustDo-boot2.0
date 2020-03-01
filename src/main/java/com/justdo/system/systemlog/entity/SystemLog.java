@@ -3,6 +3,7 @@ package com.justdo.system.systemlog.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.justdo.system.systemlog.enums.SystemOperationEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,4 +39,16 @@ public class SystemLog extends Model<SystemLog> {
 	private String ip;
 	//创建时间
 	private Date createDate;
+
+
+	public SystemLog() {
+	}
+
+	public SystemLog(String openid, SystemOperationEnum operation, String params, String ip) {
+		this.username = openid;
+		this.operation = operation.toString();
+		this.params = params;
+		this.ip = ip;
+		this.createDate=new Date();
+	}
 }

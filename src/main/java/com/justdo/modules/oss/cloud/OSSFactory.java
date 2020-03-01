@@ -1,8 +1,8 @@
 package com.justdo.modules.oss.cloud;
 
 import com.justdo.common.utils.ConfigConstant;
-import com.justdo.common.utils.Constant;
 import com.justdo.common.utils.SpringContextUtils;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.configsettings.service.ConfigSettingsService;
 
 
@@ -24,13 +24,13 @@ public final class OSSFactory {
         //获取云存储配置信息
         CloudStorageConfig config = configSettingsService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
 
-        if(config.getType() == Constant.CloudService.QINIU.getValue()){
+        if(config.getType() == ConstantConfig.CloudServeType.QINIU.getValue()){
             return new QiniuCloudStorageService(config);
-        }else if(config.getType() == Constant.CloudService.ALIYUN.getValue()){
+        }else if(config.getType() == ConstantConfig.CloudServeType.ALIYUN.getValue()){
             return new AliyunCloudStorageService(config);
-        }else if(config.getType() == Constant.CloudService.QCLOUD.getValue()){
+        }else if(config.getType() == ConstantConfig.CloudServeType.QCLOUD.getValue()){
             return new QcloudCloudStorageService(config);
-        }else if(config.getType() == Constant.CloudService.MINIO.getValue()){
+        }else if(config.getType() == ConstantConfig.CloudServeType.MINIO.getValue()){
             return new MinioCloudStorageService(config);
         }
         return null;

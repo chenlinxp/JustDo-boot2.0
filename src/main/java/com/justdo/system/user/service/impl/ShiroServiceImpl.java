@@ -1,7 +1,7 @@
 package com.justdo.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.justdo.common.utils.Constant;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.resource.entity.Resource;
 import com.justdo.system.resource.service.ResourceService;
 import com.justdo.system.user.entity.User;
@@ -31,7 +31,7 @@ public class ShiroServiceImpl implements ShiroService {
         List<String> permsList;
 
         //系统管理员，拥有最高权限
-        if(userId == Constant.SUPER_ADMIN){
+        if(userId == ConstantConfig.SUPER_ADMIN){
             List<Resource> menuList = resourceService.list();
             permsList = new ArrayList<>(menuList.size());
             for(Resource menu : menuList){

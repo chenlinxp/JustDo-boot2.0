@@ -3,8 +3,8 @@ package com.justdo.system.resource.controller;
 import com.justdo.common.annotation.Log;
 import com.justdo.common.base.AbstractController;
 import com.justdo.common.exception.RRException;
-import com.justdo.common.utils.Constant.MenuType;
 import com.justdo.common.utils.R;
+import com.justdo.config.ConstantConfig;
 import com.justdo.system.resource.entity.Resource;
 import com.justdo.system.resource.service.ResourceService;
 import com.justdo.system.user.service.ShiroService;
@@ -146,31 +146,31 @@ public class ResourceController extends AbstractController {
 		}
 		
 		//菜单
-		if(menu.getType() == MenuType.MENU.getValue()){
+		if(menu.getType() == ConstantConfig.ResourceType.MENU.getValue()){
 			if(StringUtils.isBlank(menu.getUrl())){
 				throw new RRException("菜单URL不能为空");
 			}
 		}
 		
 		//上级菜单类型
-		int parentType = MenuType.CATALOG.getValue();
+		int parentType = ConstantConfig.ResourceType.CATALOG.getValue();
 		if(menu.getParentId() != 0){
 			Resource parentMenu = resourceService.getById(menu.getParentId());
 			parentType = parentMenu.getType();
 		}
 		
 		//目录、菜单
-		if(menu.getType() == MenuType.CATALOG.getValue() ||
-				menu.getType() == MenuType.MENU.getValue()){
-			if(parentType != MenuType.CATALOG.getValue()){
+		if(menu.getType() == ConstantConfig.ResourceType.CATALOG.getValue() ||
+				menu.getType() == ConstantConfig.ResourceType.MENU.getValue()){
+			if(parentType != ConstantConfig.ResourceType.CATALOG.getValue()){
 				throw new RRException("上级菜单只能为目录类型");
 			}
 			return ;
 		}
 		
 		//按钮
-		if(menu.getType() == MenuType.BUTTON.getValue()){
-			if(parentType != MenuType.MENU.getValue()){
+		if(menu.getType() == ConstantConfig.ResourceType.BUTTON.getValue()){
+			if(parentType != ConstantConfig.ResourceType.MENU.getValue()){
 				throw new RRException("上级菜单只能为菜单类型");
 			}
 			return ;
