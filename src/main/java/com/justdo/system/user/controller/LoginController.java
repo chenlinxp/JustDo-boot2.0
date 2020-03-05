@@ -17,10 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -49,7 +46,7 @@ public class LoginController extends AbstractController {
 	 * 验证码
 	 */
 	@SneakyThrows
-	@RequestMapping("/sys/code/{time}")
+	@GetMapping("/sys/code/{time}")
 	public void captcha(@PathVariable("time") String time, HttpServletResponse response){
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setContentType("image/jpeg");
@@ -69,7 +66,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 短信验证码
 	 */
-	@RequestMapping("/mobile/code/{number}")
+	@GetMapping("/mobile/code/{number}")
 	public Map<String, Object> mobile(@PathVariable("number") String number){
 
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -99,7 +96,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 密码登录
 	 */
-	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
+	@PostMapping("/sys/login")
 	public Map<String, Object> login(String username, String password, String captcha,String randomStr){
 
 		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.NUMBER_CODE_KEY + randomStr);
@@ -134,7 +131,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 手机号码登录
 	 */
-	@RequestMapping(value = "/mobile/login", method = RequestMethod.POST)
+	@PostMapping("/mobile/login")
 	public Map<String, Object> mobileLogin(String mobile, String code){
 
 		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.MOBILE_CODE_KEY + mobile);
@@ -170,7 +167,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 退出
 	 */
-	@RequestMapping(value = "/sys/logout", method = RequestMethod.POST)
+	@PostMapping("/sys/logout")
 	public R logout() {
 		userTokenService.logout(getUserId());
 		return R.ok();
@@ -179,7 +176,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 未认证
 	 */
-	@RequestMapping(value = "/sys/unauthorized", method = RequestMethod.POST)
+	@PostMapping("/sys/unauthorized")
 	public R unauthorized() {
 		return R.error(HttpStatus.SC_UNAUTHORIZED, "unauthorized");
 	}

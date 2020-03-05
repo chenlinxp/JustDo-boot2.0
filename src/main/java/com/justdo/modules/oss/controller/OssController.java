@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.gson.Gson;
 import com.justdo.common.base.AbstractController;
 import com.justdo.common.exception.RRException;
-import com.justdo.common.utils.ConfigConstant;
 import com.justdo.common.utils.R;
 import com.justdo.common.validator.ValidatorUtils;
 import com.justdo.common.validator.group.AliyunGroup;
@@ -51,7 +50,7 @@ public class OssController extends AbstractController {
 	private final OssService sysOssService;
     private final ConfigSettingsService configSettingsService;
 
-    private final static String KEY = ConfigConstant.CLOUD_STORAGE_CONFIG_KEY;
+    private final static String KEY = ConstantConfig.CLOUD_STORAGE_CONFIG_KEY;
 
     /**
      * 上传文件的临时目录

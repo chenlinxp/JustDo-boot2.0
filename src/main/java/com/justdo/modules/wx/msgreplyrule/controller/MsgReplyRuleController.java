@@ -2,7 +2,7 @@ package com.justdo.modules.wx.msgreplyrule.controller;
 
 import com.justdo.common.utils.PageUtils;
 import com.justdo.common.utils.R;
-import com.justdo.modules.wx.dto.RegexConstant;
+import com.justdo.config.RegexConstant;
 import com.justdo.modules.wx.msgreplyrule.entity.MsgReplyRule;
 import com.justdo.modules.wx.msgreplyrule.service.MsgReplyRuleService;
 import me.chanjar.weixin.common.api.WxConsts;

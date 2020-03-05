@@ -1,15 +1,22 @@
 package com.justdo.config;
 
 /**
- * 常量
- *
- *
+ * 系统参数相关Key
+ * @author chenlin
+ * @email 13233669915@qq.com
+ * @date 2019-06-19 16:02:20
  */
+
 public class ConstantConfig {
 
     public static final String NUMBER_CODE_KEY = "justdo:number:code:";
 
     public static final String MOBILE_CODE_KEY = "justdo:mobile:code:";
+
+    /**
+     * 云存储配置KEY
+     */
+    public final static String CLOUD_STORAGE_CONFIG_KEY = "CLOUD_STORAGE_CONFIG_KEY";
 
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN = 1;

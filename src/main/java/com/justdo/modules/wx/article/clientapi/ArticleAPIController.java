@@ -108,6 +108,4 @@ public class ArticleAPIController {
         return R.ok().put(list).put("message","SUCCESS");
     }
 
-
-
 }

@@ -66,10 +66,14 @@ public class ShiroConfig {
         filterMap.put("/sys/code/**", "anon"); //验证码
         filterMap.put("/mobile/code/**", "anon"); //短信验证码
         filterMap.put("/mobile/login/**", "anon"); //手机短信登录
+        filterMap.put("/sys/**", "oauth2");
+        filterMap.put("/manage/**", "oauth2");
         filterMap.put("/v2/**", "anon");
-        filterMap.put("/", "anon");
-        filterMap.put("/**", "oauth2");
+        filterMap.put("/**", "anon");
+//        filterMap.put("/", "anon");
+//        filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
+
 
         return shiroFilter;
     }

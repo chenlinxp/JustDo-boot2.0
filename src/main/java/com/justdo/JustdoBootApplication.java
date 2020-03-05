@@ -12,10 +12,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ServletComponentScan
 @EnableAutoConfiguration
 @SpringBootApplication
+//@MapperScan({"com.justdo.modules.*.mapper" , "com.justdo.system.*.mapper"})
 public class JustdoBootApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(JustdoBootApplication.class, args);
 	}
-
 }

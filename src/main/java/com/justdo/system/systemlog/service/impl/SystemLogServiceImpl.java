@@ -29,54 +29,54 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @AllArgsConstructor
 public class SystemLogServiceImpl extends ServiceImpl<SystemLogMapper,SystemLog> implements SystemLogService {
 
-	/**
-	 * 未保存的日志队列
-	 */
-	private static ConcurrentLinkedQueue<SystemLog> SysLogsQueue = new ConcurrentLinkedQueue<>();
-	@Override
-	public PageUtils queryPage(Map<String, Object> params) {
-		String key = (String)params.get("key");
-
-		IPage<SystemLog> page = this.page(
-				new Query<SystemLog>().getPage(params),
-				new QueryWrapper<SystemLog>().like(StringUtils.isNotBlank(key),"username", key)
-		);
-
-		return new PageUtils(page);
-	}
-	/**
-	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
-	 * @param operation
-	 */
-	@Override
-	public void addTaskLog(SystemOperationEnum operation, String params) {
-		SystemLog sysLog = new SystemLog(null,operation,params,null);
-		SysLogsQueue.offer(sysLog);
-	}
-	/**
-	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
-	 * @param operation
-	 */
-	@Override
-	public void addLog(SystemOperationEnum operation, String params) {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		String openid = CookieUtils.getCookieValue(request,"openid");
-		String ip = IPUtils.getIpAddr(request);
-		SystemLog sysLog = new SystemLog(openid,operation,params,ip);
-		SysLogsQueue.offer(sysLog);
-	}
-
-	/**
-	 * 定时将日志插入到数据库
-	 */
-	@Scheduled(cron = "0 0/5 * * * ?")
-	synchronized void batchAddSysLog(){
-		List<SystemLog> logs = new ArrayList<>();
-		while (!SysLogsQueue.isEmpty()){
-			logs.add(SysLogsQueue.poll());
-		}
-		if(!logs.isEmpty()){
-			this.saveBatch(logs);
-		}
-	}
+//	/**
+//	 * 未保存的日志队列
+//	 */
+//	private static ConcurrentLinkedQueue<SystemLog> SysLogsQueue = new ConcurrentLinkedQueue<>();
+//	@Override
+//	public PageUtils queryPage(Map<String, Object> params) {
+//		String key = (String)params.get("key");
+//
+//		IPage<SystemLog> page = this.page(
+//				new Query<SystemLog>().getPage(params),
+//				new QueryWrapper<SystemLog>().like(StringUtils.isNotBlank(key),"username", key)
+//		);
+//
+//		return new PageUtils(page);
+//	}
+//	/**
+//	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
+//	 * @param operation
+//	 */
+//	@Override
+//	public void addTaskLog(SystemOperationEnum operation, String params) {
+//		SystemLog sysLog = new SystemLog(null,operation,params,null);
+//		SysLogsQueue.offer(sysLog);
+//	}
+//	/**
+//	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
+//	 * @param operation
+//	 */
+//	@Override
+//	public void addLog(SystemOperationEnum operation, String params) {
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//		String openid = CookieUtils.getCookieValue(request,"openid");
+//		String ip = IPUtils.getIpAddr(request);
+//		SystemLog sysLog = new SystemLog(openid,operation,params,ip);
+//		SysLogsQueue.offer(sysLog);
+//	}
+//
+//	/**
+//	 * 定时将日志插入到数据库
+//	 */
+//	@Scheduled(cron = "0 0/5 * * * ?")
+//	synchronized void batchAddSysLog(){
+//		List<SystemLog> logs = new ArrayList<>();
+//		while (!SysLogsQueue.isEmpty()){
+//			logs.add(SysLogsQueue.poll());
+//		}
+//		if(!logs.isEmpty()){
+//			this.saveBatch(logs);
+//		}
+//	}
 }

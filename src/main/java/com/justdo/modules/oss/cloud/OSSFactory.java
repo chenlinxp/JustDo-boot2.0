@@ -1,6 +1,6 @@
 package com.justdo.modules.oss.cloud;
 
-import com.justdo.common.utils.ConfigConstant;
+
 import com.justdo.common.utils.SpringContextUtils;
 import com.justdo.config.ConstantConfig;
 import com.justdo.system.configsettings.service.ConfigSettingsService;
@@ -22,7 +22,7 @@ public final class OSSFactory {
 
     public static CloudStorageService build(){
         //获取云存储配置信息
-        CloudStorageConfig config = configSettingsService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
+        CloudStorageConfig config = configSettingsService.getConfigObject(ConstantConfig.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
 
         if(config.getType() == ConstantConfig.CloudServeType.QINIU.getValue()){
             return new QiniuCloudStorageService(config);

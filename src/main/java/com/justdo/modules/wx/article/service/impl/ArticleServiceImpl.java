@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.justdo.common.exception.RRException;
 import com.justdo.common.utils.PageUtils;
 import com.justdo.common.utils.Query;
+import com.justdo.config.ConstantConfig;
 import com.justdo.modules.wx.article.entity.Article;
 import com.justdo.modules.wx.article.enums.ArticleTypeEnum;
 import com.justdo.modules.wx.article.mapper.ArticleMapper;
 import com.justdo.modules.wx.article.service.ArticleService;
-import com.justdo.modules.wx.dto.PageSizeConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -108,7 +108,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public IPage<Article> getArticles(String title, int page) {
-        return this.page(new Page<Article>(page, PageSizeConstant.PAGE_SIZE_SMALL),
+        return this.page(new Page<Article>(page, ConstantConfig.PAGE_SIZE_SMALL),
                 new QueryWrapper<Article>().like(!StringUtils.isEmpty("title"),"title",title)
                         .select(LIST_FILEDS)
                         .orderBy(true,false,"update_time"));

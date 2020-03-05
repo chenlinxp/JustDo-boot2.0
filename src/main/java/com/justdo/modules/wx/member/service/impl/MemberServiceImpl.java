@@ -3,7 +3,7 @@ package com.justdo.modules.wx.member.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.justdo.modules.wx.dto.PageSizeConstant;
+import com.justdo.config.ConstantConfig;
 import com.justdo.modules.wx.member.entity.Member;
 import com.justdo.modules.wx.member.mapper.MemberMapper;
 import com.justdo.modules.wx.member.service.MemberService;
@@ -56,7 +56,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 	 */
 	@Override
 	public List<Member> getUserList(int pageNumber, String nickname) {
-		return memberMapper.selectPage(new Page<Member>(pageNumber, PageSizeConstant.PAGE_SIZE_SMALL),
+		return memberMapper.selectPage(new Page<Member>(pageNumber, ConstantConfig.PAGE_SIZE_SMALL),
 				new QueryWrapper<Member>().like("nickname", nickname).orderByDesc("subscribetime")).getRecords();
 	}
 

@@ -39,7 +39,7 @@ public class AuthAPIController {
     @Autowired
     SystemLogService sysLogService;
     private final WxMpService wxService;
-    @Value("${wx.mp.configs[0].appid}")
+    @Value("${wx.mp.configs[0].appId}")
     private String appId;
     @Value("${server.baseAddress}")
     private String appBaseAddress;
@@ -89,7 +89,7 @@ public class AuthAPIController {
             String openidToken = MD5Utils.getMD5AndSalt(openid);
 
             CookieUtils.setCookie(response, "openidToken", openidToken, 365 * 24 * 60 * 60);
-            sysLogService.addLog(SystemOperationEnum.微信授权,"code:"+code);
+            //sysLogService.addLog(SystemOperationEnum.微信授权,"code:"+code);
             return R.ok().put(openid);
         }catch (WxErrorException e){
             logger.error("code换取openid失败",e);
@@ -133,7 +133,7 @@ public class AuthAPIController {
         resMap.put("wxTimestamp",wxTimestamp );
         resMap.put("wxNoncestr",wxNoncestr );
         resMap.put("wxSignature",wxSignature );
-        sysLogService.addLog(SystemOperationEnum.加载微信分享,"wxShareUrl:"+wxShareUrl);
+        //sysLogService.addLog(SystemOperationEnum.加载微信分享,"wxShareUrl:"+wxShareUrl);
         return R.ok().put(resMap);
     }
 
