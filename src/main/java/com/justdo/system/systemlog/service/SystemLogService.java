@@ -17,18 +17,18 @@ import java.util.Map;
  */
 public interface SystemLogService extends IService<SystemLog> {
 
-//	PageUtils queryPage(Map<String, Object> params);
-//
-//	/**
-//	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
-//	 * @param operation
-//	 */
-//	public void addTaskLog(SystemOperationEnum operation, String params);
-//
-//	/**
-//	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
-//	 * @param operation
-//	 */
-//	public void addLog(SystemOperationEnum operation, String params);
+	PageUtils queryPage(Map<String, Object> params);
+
+	/**
+	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
+	 * @param operation
+	 */
+	public void addTaskLog(SystemOperationEnum operation, String params);
+
+	/**
+	 * 添加系统日志到队列中，队列数据会定时批量插入到数据库
+	 * @param operation
+	 */
+	public void addLog(SystemOperationEnum operation, String params);
 
 }

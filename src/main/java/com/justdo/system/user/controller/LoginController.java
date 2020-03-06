@@ -8,6 +8,7 @@ import com.justdo.common.base.AbstractController;
 import com.justdo.common.utils.R;
 import com.justdo.config.ConstantConfig;
 import com.justdo.system.user.entity.User;
+import com.justdo.system.user.form.LoginForm;
 import com.justdo.system.user.service.UserService;
 import com.justdo.system.user.service.UserTokenService;
 import lombok.AllArgsConstructor;
@@ -97,24 +98,24 @@ public class LoginController extends AbstractController {
 	 * 密码登录
 	 */
 	@PostMapping("/sys/login")
-	public Map<String, Object> login(String username, String password, String captcha,String randomStr){
+	public Map<String, Object> login(@RequestBody LoginForm loginForm){
 
-		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.NUMBER_CODE_KEY + randomStr);
+		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.NUMBER_CODE_KEY + loginForm.getRandomStr());
 		if(StrUtil.isEmpty(code_key)){
 			return R.error("验证码过期");
 		}
 
-		if(!captcha.equalsIgnoreCase(code_key)){
+		if(!loginForm.getCaptcha().equalsIgnoreCase(code_key)){
 			return R.error("验证码不正确");
 		}
-
+		//{"t":1583415120206,"username":"admin","password":"888888","randomStr":580975185,"captcha":"c66wy"}
 		//用户信息
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("username",username);
+		queryWrapper.eq("username",loginForm.getUsername());
 		User user = userService.getOne(queryWrapper);
 
 		//账号不存在、密码错误
-		if(user == null || !user.getPassword().equals(new Sha256Hash(password, user.getSalt()).toHex())) {
+		if(user == null || !user.getPassword().equals(new Sha256Hash(loginForm.getPassword(), user.getSalt()).toHex())) {
 			return R.error("账号或密码不正确");
 		}
 

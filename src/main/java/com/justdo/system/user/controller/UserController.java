@@ -11,6 +11,7 @@ import com.justdo.common.validator.ValidatorUtils;
 import com.justdo.config.ConstantConfig;
 import com.justdo.system.user.entity.User;
 import com.justdo.system.user.entity.UserRole;
+import com.justdo.system.user.form.PasswordForm;
 import com.justdo.system.user.service.UserRoleService;
 import com.justdo.system.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -77,13 +78,13 @@ public class UserController extends AbstractController {
 	 */
 	@Log("修改密码")
 	@RequestMapping("/password")
-	public R password(String password, String newPassword){
-		Assert.isBlank(newPassword, "新密码不为能空");
+	public R password(@RequestBody PasswordForm passwordForm){
+		Assert.isBlank(passwordForm.getNewPassword(), "新密码不为能空");
 		
 		//sha256加密
-		password = new Sha256Hash(password, getUser().getSalt()).toHex();
+		String password = new Sha256Hash(passwordForm.getPassword(), getUser().getSalt()).toHex();
 		//sha256加密
-		newPassword = new Sha256Hash(newPassword, getUser().getSalt()).toHex();
+		String newPassword = new Sha256Hash(passwordForm.getNewPassword(), getUser().getSalt()).toHex();
 				
 		//更新密码
 		int count = userService.updatePassword(getUserId(), password, newPassword);
