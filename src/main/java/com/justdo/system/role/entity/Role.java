@@ -49,7 +49,7 @@ public class Role extends Model<Role> implements Serializable {
 	private Long createUserId;
 
 	@TableField(exist = false)
-	private List<Long> menuIdList;
+	private List<Long> resourceIdList;
 	
 	/**
 	 * 创建时间

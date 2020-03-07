@@ -1,5 +1,6 @@
 package com.justdo.modules.wx.wxqrcode.controller;
 
+import com.justdo.common.annotation.Log;
 import com.justdo.common.utils.PageUtils;
 import com.justdo.common.utils.R;
 import com.justdo.modules.wx.wxqrcode.entity.WxQrCode;
@@ -21,26 +22,19 @@ import java.util.Map;
  * https://github.com/Wechat-Group/WxJava/wiki/MP_二维码管理
  */
 @RestController
-@RequestMapping("/manage/wxQrCode")
+@RequestMapping("/wx/wxQrCode")
 public class WxQrCodeController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private WxQrCodeService wxQrCodeService;
 
+
     /**
-     * 创建带参二维码ticket
+     * 二维码列表
      */
-    @PostMapping("/createTicket")
-    @RequiresPermissions("wx:wxqrcode:save")
-    public R createTicket(@RequestBody WxQrCodeForm form) throws WxErrorException {
-        WxMpQrCodeTicket ticket = wxQrCodeService.createQrCode(form);
-        return R.ok().put(ticket);
-    }
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
+    @Log("二维码列表")
+    @GetMapping("/list")
     @RequiresPermissions("wx:wxqrcode:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wxQrCodeService.queryPage(params);
@@ -50,9 +44,10 @@ public class WxQrCodeController {
 
 
     /**
-     * 信息
+     * 二维码详情
      */
-    @RequestMapping("/info/{id}")
+    @Log("二维码详情")
+    @GetMapping("/info/{id}")
     @RequiresPermissions("wx:wxqrcode:info")
     public R info(@PathVariable("id") Long id){
         WxQrCode wxQrCode = wxQrCodeService.getById(id);
@@ -61,9 +56,21 @@ public class WxQrCodeController {
     }
 
     /**
-     * 删除
+     * 创建带参二维码ticket
      */
-    @RequestMapping("/delete")
+    @Log("创建带参二维码")
+    @PostMapping("/createTicket")
+    @RequiresPermissions("wx:wxqrcode:save")
+    public R createTicket(@RequestBody WxQrCodeForm form) throws WxErrorException {
+        WxMpQrCodeTicket ticket = wxQrCodeService.createQrCode(form);
+        return R.ok().put(ticket);
+    }
+
+    /**
+     * 删除二维码
+     */
+    @Log("删除二维码")
+    @PostMapping("/delete")
     @RequiresPermissions("wx:wxqrcode:delete")
     public R delete(@RequestBody Long[] ids){
         wxQrCodeService.removeByIds(Arrays.asList(ids));

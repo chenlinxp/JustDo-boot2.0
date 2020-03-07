@@ -1,8 +1,8 @@
-package com.justdo.modules.wx.material.controller;
+package com.justdo.modules.wx.assets.controller;
 
 import com.justdo.common.utils.R;
 import com.justdo.config.RegexConstant;
-import com.justdo.modules.wx.material.service.UploadService;
+import com.justdo.modules.wx.assets.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

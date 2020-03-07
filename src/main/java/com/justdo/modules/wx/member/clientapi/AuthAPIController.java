@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * 微信网页授权相关
  */
 @RestController
-@RequestMapping("/wxAuth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthAPIController {
     Logger logger = LoggerFactory.getLogger(this.getClass());

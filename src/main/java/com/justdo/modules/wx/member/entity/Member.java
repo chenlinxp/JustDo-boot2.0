@@ -2,6 +2,7 @@ package com.justdo.modules.wx.member.entity;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -25,6 +26,7 @@ public class Member implements Serializable {
         private String city;
         private String province;
         private String headimgurl;
+	    @TableField(value = "subscribe_time")
         private Date subscribetime;
 
     public Member() {

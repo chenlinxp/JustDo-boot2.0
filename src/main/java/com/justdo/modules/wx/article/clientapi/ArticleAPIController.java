@@ -7,6 +7,7 @@ import com.justdo.modules.wx.article.enums.ArticleTypeEnum;
 import com.justdo.modules.wx.article.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,24 +15,31 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedList;
 import java.util.List;
 
+
 /**
- * 文章、公告
+ * 文章API
+ *
+ * @author chenlin
+ * @email chenlinxp@qq.com
+ * @date 2020/2/29 下午9:07
  */
 @RestController
 @RequestMapping("/article")
 public class ArticleAPIController {
+
     @Autowired
     ArticleService articleService;
+
 
     /**
      * 查看文章详情
      * @param articleId
      * @return
      */
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     public R getArticle(int articleId){
         Article article = articleService.findById(articleId);
-        //sysLogService.addLog(SysOperationEnum.查看文章,"articleId:"+articleId);
+        //systemLogService.addLog(SysOperationEnum.查看文章,"articleId:"+articleId);
         return R.ok().put(article);
     }
 
@@ -40,7 +48,7 @@ public class ArticleAPIController {
      * @param category
      * @return
      */
-    @RequestMapping("/category")
+    @GetMapping("/category")
     public R getQuestions(String type,String category){
         ArticleTypeEnum articleType=ArticleTypeEnum.of(type);
         if(articleType==null){
@@ -56,7 +64,7 @@ public class ArticleAPIController {
      * @param keywords
      * @return
      */
-    @RequestMapping("/search")
+    @GetMapping("/search")
     public R getQuestions(String type,
                           @RequestParam(required = false) String category,
                           @RequestParam(required = false)  String keywords){
@@ -77,7 +85,7 @@ public class ArticleAPIController {
      * 其中图片通知/文字通知 都存在时图片通知优先，滚动公告可并存
      * @return
      */
-    @RequestMapping("/getAppNotice")
+    @GetMapping("/getAppNotice")
     public R getAppNotice(){
         List<Article> list = new LinkedList<>();
         QueryWrapper<Article> wrapper=new QueryWrapper<Article>()

@@ -28,24 +28,24 @@ public class RoleResourceServiceImpl extends ServiceImpl<RoleResourceMapper,Role
 
 	@Override
 	@Transactional
-	public void saveOrUpdate(Long roleId, List<Long> menuIdList) {
+	public void saveOrUpdate(Long roleId, List<Long> resourceIdList) {
 		//先删除角色与菜单关系
 		roleResourceMapper.deleteById(roleId);
 
-		if(menuIdList.size() == 0){
+		if(resourceIdList.size() == 0){
 			return ;
 		}
 
 		//保存角色与菜单关系
 		Map<String, Object> map = new HashMap<>();
 		map.put("roleId", roleId);
-		map.put("menuIdList", menuIdList);
-		roleResourceMapper.saveUserMenu(map);
+		map.put("resourceIdList", resourceIdList);
+		roleResourceMapper.saveUserResource(map);
 	}
 
 	@Override
-	public List<Long> queryMenuIdList(Long roleId) {
-		return roleResourceMapper.queryMenuIdList(roleId);
+	public List<Long> queryResourceIdList(Long roleId) {
+		return roleResourceMapper.queryResourceIdList(roleId);
 	}
 
 }

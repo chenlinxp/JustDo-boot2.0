@@ -43,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements Rol
 		checkPrems(role);
 		
 		//保存角色与菜单关系
-		roleResourceService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
+		roleResourceService.saveOrUpdate(role.getRoleId(), role.getResourceIdList());
 		return true;
 	}
 
@@ -55,7 +55,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements Rol
 		checkPrems(role);
 		
 		//更新角色与菜单关系
-		roleResourceService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
+		roleResourceService.saveOrUpdate(role.getRoleId(), role.getResourceIdList());
 	}
 
 	@Override
@@ -86,10 +86,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements Rol
 		}
 		
 		//查询用户所拥有的菜单列表
-		List<Long> menuIdList = roleMapper.queryAllMenuId(role.getCreateUserId());
+		List<Long> resourceIdList = roleMapper.queryAllResourceId(role.getCreateUserId());
 		
 		//判断是否越权
-		if(!menuIdList.containsAll(role.getMenuIdList())){
+		if(!resourceIdList.containsAll(role.getResourceIdList())){
 			throw new RRException("新增角色的权限，已超出你的权限范围");
 		}
 	}

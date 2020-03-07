@@ -1,7 +1,7 @@
-package com.justdo.modules.wx.material.service.impl;
+package com.justdo.modules.wx.assets.service.impl;
 
 import com.justdo.common.exception.RRException;
-import com.justdo.modules.wx.material.service.UploadService;
+import com.justdo.modules.wx.assets.service.UploadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

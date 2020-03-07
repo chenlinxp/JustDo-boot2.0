@@ -19,7 +19,12 @@ public interface RoleResourceMapper extends BaseMapper<RoleResource> {
 	/**
 	 * 根据角色ID，获取菜单ID列表
 	 */
-	List<Long> queryMenuIdList(Long roleId);
+	List<Long> queryResourceIdList(Long roleId);
 
-	void saveUserMenu(Map<String, Object> map);
+
+	/**
+	 *  保存角色与菜单对应关系
+	 *  @param map
+	 */
+	void saveUserResource(Map<String, Object> map);
 }

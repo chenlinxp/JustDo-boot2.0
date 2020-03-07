@@ -22,6 +22,6 @@ public interface RoleMapper extends BaseMapper<Role> {
 	/**
 	 * 查询用户的所有菜单ID
 	 */
-	List<Long> queryAllMenuId(Long userId);
+	List<Long> queryAllResourceId(Long userId);
 
 }

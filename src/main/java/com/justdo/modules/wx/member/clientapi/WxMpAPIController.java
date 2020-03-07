@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/wx/msg")
+@RequestMapping("/mp/msg")
 public class WxMpAPIController {
 	private final WxMpService wxService;
 	private final WxMpMessageRouter messageRouter;

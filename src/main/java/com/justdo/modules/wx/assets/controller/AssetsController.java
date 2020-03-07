@@ -1,8 +1,10 @@
-package com.justdo.modules.wx.material.controller;
+package com.justdo.modules.wx.assets.controller;
 
+import com.justdo.common.annotation.Log;
+import com.justdo.common.base.AbstractController;
 import com.justdo.common.utils.R;
 import com.justdo.config.ConstantConfig;
-import com.justdo.modules.wx.material.form.MaterialDeleteForm;
+import com.justdo.modules.wx.assets.form.MaterialDeleteForm;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -22,10 +24,10 @@ import java.io.IOException;
  * 参考WxJava开发文档：https://github.com/Wechat-Group/WxJava/wiki/MP_永久素材管理
  */
 @RestController
-@RequestMapping("/manage/wxAssets")
+@RequestMapping("/wx/assets")
 @RequiredArgsConstructor
-public class MaterialController {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+public class AssetsController extends AbstractController {
+
     private final WxMpService wxService;
 
     /**
@@ -33,7 +35,8 @@ public class MaterialController {
      * @return
      * @throws WxErrorException
      */
-    @GetMapping("/materialCount")
+    @Log("获取素材总数")
+    @GetMapping("/count")
     public R materialCount() throws WxErrorException {
         WxMpMaterialCountResult res = wxService.getMaterialService().materialCount();
         return R.ok().put(res);
@@ -46,8 +49,9 @@ public class MaterialController {
      * @return
      * @throws WxErrorException
      */
-    @GetMapping("/materialFileBatchGet")
-    @RequiresPermissions("wx:material:list")
+    @Log("获取非图文素材列表")
+    @GetMapping("/fileList")
+    @RequiresPermissions("wx:assets:list")
     public R materialFileBatchGet(@RequestParam(defaultValue = "image") String type,
                                        @RequestParam(defaultValue = "1") int page) throws WxErrorException {
         int offset=(page-1)* ConstantConfig.PAGE_SIZE_SMALL;
@@ -61,8 +65,9 @@ public class MaterialController {
      * @return
      * @throws WxErrorException
      */
-    @GetMapping("/materialNewsBatchGet")
-    @RequiresPermissions("wx:material:list")
+    @Log("获取图文素材列表")
+    @GetMapping("/newsList")
+    @RequiresPermissions("wx:assets:list")
     public R materialNewsBatchGet(@RequestParam(defaultValue = "1") int page) throws WxErrorException {
         int offset=(page-1)*ConstantConfig.PAGE_SIZE_SMALL;
         WxMpMaterialNewsBatchGetResult res = wxService.getMaterialService().materialNewsBatchGet(offset, ConstantConfig.PAGE_SIZE_SMALL);
@@ -75,8 +80,9 @@ public class MaterialController {
      * @return
      * @throws WxErrorException
      */
-    @PostMapping("/materialNewsUpload")
-    @RequiresPermissions("wx:material:save")
+    @Log("添加图文永久素材")
+    @PostMapping("/save")
+    @RequiresPermissions("wx:assets:save")
     public R materialNewsUpload(@RequestBody WxMpMaterialNews.WxMpMaterialNewsArticle mpMaterialNewsArticle) throws WxErrorException {
         WxMpMaterialNews wxMpMaterialNewsSingle = new WxMpMaterialNews();
         mpMaterialNewsArticle.setShowCoverPic(true);
@@ -94,8 +100,9 @@ public class MaterialController {
      * @throws WxErrorException
      * @throws IOException
      */
-    @PostMapping("/materialFileUpload")
-    @RequiresPermissions("wx:material:save")
+    @Log("添加多媒体永久素材")
+    @PostMapping("/upload")
+    @RequiresPermissions("wx:assets:save")
     public R materialFileUpload(MultipartFile file, String fileName, String mediaType) throws WxErrorException, IOException {
         if(file==null){
             return R.error("文件不得为空");
@@ -118,8 +125,9 @@ public class MaterialController {
      * @throws WxErrorException
      * @throws IOException
      */
-    @PostMapping("/materialDelete")
-    @RequiresPermissions("wx:material:delete")
+    @Log("删除素材")
+    @PostMapping("/delete")
+    @RequiresPermissions("wx:assets:delete")
     public R materialDelete(@RequestBody MaterialDeleteForm form) throws WxErrorException, IOException {
         boolean res = wxService.getMaterialService().materialDelete(form.getMediaId());
         return R.ok().put(res);

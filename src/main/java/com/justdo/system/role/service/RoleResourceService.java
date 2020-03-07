@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface RoleResourceService  extends IService<RoleResource> {
 	
-	void saveOrUpdate(Long roleId, List<Long> menuIdList);
+	void saveOrUpdate(Long roleId, List<Long> ResourceIdList);
 	
 	/**
 	 * 根据角色ID，获取菜单ID列表
 	 */
-	List<Long> queryMenuIdList(Long roleId);
+	List<Long> queryResourceIdList(Long roleId);
 	
 }

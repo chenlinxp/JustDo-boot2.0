@@ -1,4 +1,4 @@
-package com.justdo.modules.wx.material.service;
+package com.justdo.modules.wx.assets.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

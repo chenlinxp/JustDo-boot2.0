@@ -29,7 +29,7 @@ import java.util.Map;
  **/
 
 @RestController
-@RequestMapping("/sys/role")
+@RequestMapping("/system/role")
 @AllArgsConstructor
 public class RoleController extends AbstractController {
 	private final RoleService roleService;
@@ -38,8 +38,9 @@ public class RoleController extends AbstractController {
 	/**
 	 * 角色列表
 	 */
-	@RequestMapping("/list")
-	@RequiresPermissions("sys:role:list")
+	@Log("角色列表")
+	@GetMapping("/list")
+	@RequiresPermissions("system:role:list")
 	public R list(@RequestParam Map<String, Object> params){
 		QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
 		//如果不是超级管理员，则只查询自己创建的角色列表
@@ -60,8 +61,8 @@ public class RoleController extends AbstractController {
 	/**
 	 * 角色列表
 	 */
-	@RequestMapping("/select")
-	@RequiresPermissions("sys:role:select")
+	@GetMapping("/select")
+	@RequiresPermissions("system:role:select")
 	public R select(){
 		Map<String, Object> map = new HashMap<>();
 		List<Role> list;
@@ -79,16 +80,17 @@ public class RoleController extends AbstractController {
 	}
 	
 	/**
-	 * 角色信息
+	 * 角色详情
 	 */
-	@RequestMapping("/info/{roleId}")
-	@RequiresPermissions("sys:role:info")
+	@Log("角色详情")
+	@GetMapping("/info/{roleId}")
+	@RequiresPermissions("system:role:info")
 	public R info(@PathVariable("roleId") Long roleId){
 		Role role = roleService.getById(roleId);
 		
 		//查询角色对应的菜单
-		List<Long> menuIdList = roleResourceService.queryMenuIdList(roleId);
-		role.setMenuIdList(menuIdList);
+		List<Long> resourceIdList = roleResourceService.queryResourceIdList(roleId);
+		role.setResourceIdList(resourceIdList);
 		
 		return R.ok().put("role", role);
 	}
@@ -97,8 +99,8 @@ public class RoleController extends AbstractController {
 	 * 保存角色
 	 */
 	@Log("保存角色")
-	@RequestMapping("/save")
-	@RequiresPermissions("sys:role:save")
+	@PostMapping("/save")
+	@RequiresPermissions("system:role:save")
 	public R save(@RequestBody Role role){
 		ValidatorUtils.validateEntity(role);
 		
@@ -112,8 +114,8 @@ public class RoleController extends AbstractController {
 	 * 修改角色
 	 */
 	@Log("修改角色")
-	@RequestMapping("/update")
-	@RequiresPermissions("sys:role:update")
+	@PostMapping("/update")
+	@RequiresPermissions("system:role:update")
 	public R update(@RequestBody Role role){
 		ValidatorUtils.validateEntity(role);
 		
@@ -127,8 +129,8 @@ public class RoleController extends AbstractController {
 	 * 删除角色
 	 */
 	@Log("删除角色")
-	@RequestMapping("/delete")
-	@RequiresPermissions("sys:role:delete")
+	@PostMapping("/delete")
+	@RequiresPermissions("system:role:delete")
 	public R delete(@RequestBody Long[] roleIds){
 		roleService.deleteBath(roleIds);
 		return R.ok();

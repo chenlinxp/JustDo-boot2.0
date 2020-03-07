@@ -1,4 +1,4 @@
-package com.justdo.modules.wx.material.form;
+package com.justdo.modules.wx.assets.form;
 
 
 import cn.hutool.json.JSONUtil;

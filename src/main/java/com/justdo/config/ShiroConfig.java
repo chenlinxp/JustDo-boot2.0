@@ -50,8 +50,8 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
 
-        shiroFilter.setLoginUrl("/sys/unauthorized");
-        shiroFilter.setUnauthorizedUrl("/sys/unauthorized");
+        shiroFilter.setLoginUrl("/system/unauthorized");
+        shiroFilter.setUnauthorizedUrl("/system/unauthorized");
 
         //oauth过滤
         Map<String, Filter> filters = new HashMap<>();
@@ -61,17 +61,15 @@ public class ShiroConfig {
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/actuator/**", "anon");
         filterMap.put("/app/**", "anon");  //APP 模块开放 后面通过拦截器管理
-        filterMap.put("/sys/login", "anon"); //用户密码登录
-        filterMap.put("/sys/unauthorized", "anon"); //未认证
-        filterMap.put("/sys/code/**", "anon"); //验证码
-        filterMap.put("/mobile/code/**", "anon"); //短信验证码
-        filterMap.put("/mobile/login/**", "anon"); //手机短信登录
-        filterMap.put("/sys/**", "oauth2");
+        filterMap.put("/system/login", "anon"); //用户密码登录
+        filterMap.put("/system/unauthorized", "anon"); //未认证
+        filterMap.put("/system/verification/**", "anon"); //验证码
+        filterMap.put("/system/mobilecode/**", "anon"); //短信验证码
+        filterMap.put("/system/mobile/login/**", "anon"); //手机短信登录
+        filterMap.put("/system/**", "oauth2");
         filterMap.put("/manage/**", "oauth2");
         filterMap.put("/v2/**", "anon");
         filterMap.put("/**", "anon");
-//        filterMap.put("/", "anon");
-//        filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
 

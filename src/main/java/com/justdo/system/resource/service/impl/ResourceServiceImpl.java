@@ -22,19 +22,19 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper,Resource> im
 	private final ResourceMapper resourceMapper;
 	
 	@Override
-	public List<Resource> queryListParentId(Long parentId, List<Long> menuIdList) {
-		List<Resource> menuList = queryListParentId(parentId);
-		if(menuIdList == null){
-			return menuList;
+	public List<Resource> queryListParentId(Long parentId, List<Long> resourceIdList) {
+		List<Resource> resourceList = queryListParentId(parentId);
+		if(resourceIdList == null){
+			return resourceList;
 		}
 		
-		List<Resource> userMenuList = new ArrayList<>();
-		for(Resource menu : menuList){
-			if(menuIdList.contains(menu.getResourceId())){
-				userMenuList.add(menu);
+		List<Resource> userResourceList = new ArrayList<>();
+		for(Resource resource : resourceList){
+			if(resourceIdList.contains(resource.getResourceId())){
+				userResourceList.add(resource);
 			}
 		}
-		return userMenuList;
+		return userResourceList;
 	}
 
 	@Override
@@ -52,15 +52,15 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper,Resource> im
 	}
 
 	@Override
-	public List<Resource> getUserMenuList(Long userId) {
+	public List<Resource> getUserResourceList(Long userId) {
 		//系统管理员，拥有最高权限
 		if(userId == ConstantConfig.SUPER_ADMIN){
-			return getAllMenuList(null);
+			return getAllResourceList(null);
 		}
 		
 		//用户菜单列表
-		List<Long> menuIdList = resourceMapper.queryAllMenuId(userId);
-		return getAllMenuList(menuIdList);
+		List<Long> resourceIdList = resourceMapper.queryAllResourceId(userId);
+		return getAllResourceList(resourceIdList);
 	}
 
 
@@ -72,28 +72,28 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper,Resource> im
 	/**
 	 * 获取所有菜单列表
 	 */
-	private List<Resource> getAllMenuList(List<Long> menuIdList){
+	private List<Resource> getAllResourceList(List<Long> resourceIdList){
 		//查询根菜单列表
-		List<Resource> menuList = queryListParentId(0L, menuIdList);
+		List<Resource> resourceList = queryListParentId(0L, resourceIdList);
 		//递归获取子菜单
-		getMenuTreeList(menuList, menuIdList);
+		getResourceTreeList(resourceList, resourceIdList);
 		
-		return menuList;
+		return resourceList;
 	}
 
 	/**
 	 * 递归
 	 */
-	private List<Resource> getMenuTreeList(List<Resource> menuList, List<Long> menuIdList){
-		List<Resource> subMenuList = new ArrayList<Resource>();
+	private List<Resource> getResourceTreeList(List<Resource> resourceList, List<Long> resourceIdList){
+		List<Resource> subReourceList = new ArrayList<Resource>();
 		
-		for(Resource entity : menuList){
+		for(Resource entity : resourceList){
 			if(entity.getType() == ConstantConfig.ResourceType.CATALOG.getValue()){//目录
-				entity.setList(getMenuTreeList(queryListParentId(entity.getResourceId(), menuIdList), menuIdList));
+				entity.setList(getResourceTreeList(queryListParentId(entity.getResourceId(), resourceIdList), resourceIdList));
 			}
-			subMenuList.add(entity);
+			subReourceList.add(entity);
 		}
 		
-		return subMenuList;
+		return subReourceList;
 	}
 }

@@ -5,6 +5,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.gson.Gson;
+import com.justdo.common.annotation.Log;
 import com.justdo.common.base.AbstractController;
 import com.justdo.common.exception.RRException;
 import com.justdo.common.utils.R;
@@ -24,10 +25,7 @@ import lombok.AllArgsConstructor;
 import net.dongliu.apk.parser.ApkFile;
 import net.dongliu.apk.parser.bean.ApkMeta;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -36,14 +34,14 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 文件上传
+ * 文件上传到云服务
  *
  * @author chenlin
  * @email 13233669915@qq.com
  * @date 2019-06-19 16:02:20
  */
 @RestController
-@RequestMapping("sys/oss")
+@RequestMapping("system/oss")
 @AllArgsConstructor
 public class OssController extends AbstractController {
 
@@ -55,13 +53,14 @@ public class OssController extends AbstractController {
     /**
      * 上传文件的临时目录
      **/
-    private final String tempDir = "E:\\temp";
+    private final String tempDir = "\\usr\\local\\temp";
 
 	/**
-	 * 列表
+	 * 文件列表
 	 */
-	@RequestMapping("/list")
-	@RequiresPermissions("sys:oss:all")
+	@Log("文件列表")
+	@GetMapping("/list")
+	@RequiresPermissions("system:oss:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		QueryWrapper<Oss> queryWrapper = new QueryWrapper<>();
@@ -79,8 +78,9 @@ public class OssController extends AbstractController {
     /**
      * 云存储配置信息
      */
-    @RequestMapping("/config")
-    @RequiresPermissions("sys:oss:all")
+    @Log("云存储配置信息")
+    @GetMapping("/config")
+    @RequiresPermissions("system:oss:config")
     public R config(){
         CloudStorageConfig config = configSettingsService.getConfigObject(KEY, CloudStorageConfig.class);
 
@@ -91,8 +91,9 @@ public class OssController extends AbstractController {
 	/**
 	 * 保存云存储配置信息
 	 */
-	@RequestMapping("/saveConfig")
-	@RequiresPermissions("sys:oss:all")
+	@Log("保存云存储配置信息")
+	@PostMapping("/saveConfig")
+	@RequiresPermissions("system:oss:saveConfig")
 	public R saveConfig(@RequestBody CloudStorageConfig config){
 
 		if(config.getType() == ConstantConfig.CloudServeType.QINIU.getValue()){
@@ -116,8 +117,9 @@ public class OssController extends AbstractController {
 	/**
 	 * 上传文件
 	 */
-	@RequestMapping("/upload")
-	@RequiresPermissions("sys:oss:all")
+	@Log("上传文件")
+	@PostMapping("/upload")
+	@RequiresPermissions("system:oss:all")
 	public R upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
 			throw new RRException("上传文件不能为空");
@@ -139,8 +141,9 @@ public class OssController extends AbstractController {
 	/**
 	 * 上传文件
 	 */
-	@RequestMapping("/upload/apk")
-	@RequiresPermissions("sys:oss:all")
+	@Log("上传APK文件")
+	@PostMapping("/upload/apk")
+	@RequiresPermissions("system:oss:all")
 	public R uploadApk(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
 			throw new RRException("上传文件不能为空");
@@ -184,10 +187,11 @@ public class OssController extends AbstractController {
 
 
 	/**
-	 * 删除
+	 * 删除文件
 	 */
-	@RequestMapping("/delete")
-	@RequiresPermissions("sys:oss:all")
+	@Log("删除文件")
+	@PostMapping("/delete")
+	@RequiresPermissions("system:oss:delete")
 	public R delete(@RequestBody Long[] ids){
 		sysOssService.removeById(ids);
 		return R.ok();

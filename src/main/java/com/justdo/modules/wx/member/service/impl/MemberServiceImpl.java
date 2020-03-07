@@ -1,9 +1,14 @@
 package com.justdo.modules.wx.member.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.justdo.common.utils.PageUtils;
+import com.justdo.common.utils.Query;
 import com.justdo.config.ConstantConfig;
+import com.justdo.modules.wx.article.entity.Article;
+import com.justdo.modules.wx.article.mapper.ArticleMapper;
 import com.justdo.modules.wx.member.entity.Member;
 import com.justdo.modules.wx.member.mapper.MemberMapper;
 import com.justdo.modules.wx.member.service.MemberService;
@@ -13,17 +18,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private MemberMapper memberMapper;
 	@Autowired
 	private WxMpService wxService;
+
+	private static final String LIST_FILEDS="openid,phone,nickname,sex,city,province,headimgurl,subscribe_time";
 
 	/**
 	 * 根据openid更新用户信息
@@ -57,9 +67,28 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 	@Override
 	public List<Member> getUserList(int pageNumber, String nickname) {
 		return memberMapper.selectPage(new Page<Member>(pageNumber, ConstantConfig.PAGE_SIZE_SMALL),
-				new QueryWrapper<Member>().like("nickname", nickname).orderByDesc("subscribetime")).getRecords();
+				new QueryWrapper<Member>().like("nickname", nickname).orderByDesc("subscribe_time")).getRecords();
 	}
+	/**
+	 * 查询文章列表时返回的字段（过滤掉详情字段以加快速度）
+	 */
+	@Override
+	public PageUtils queryPage(Map<String, Object> params) {
+		String nickname = (String)params.get("nickname");
+		String phone = (String)params.get("phone");
+		String openid = (String)params.get("openid");
+		IPage<Member> page = this.page(
+				new Query<Member>().getPage(params),
+				new QueryWrapper<Member>()
+						.select(LIST_FILEDS)
+						.eq(!StringUtils.isEmpty(nickname),"nickname",nickname)
+						.like(!StringUtils.isEmpty(phone),"phone",phone)
+						.like(!StringUtils.isEmpty(openid),"openid",openid)
+						.orderByDesc("subscribe_time")
+		);
 
+		return new PageUtils(page);
+	}
 	/**
 	 * 计数
 	 *

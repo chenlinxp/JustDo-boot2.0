@@ -1,5 +1,6 @@
 package com.justdo.modules.wx.msgreplyrule.controller;
 
+import com.justdo.common.annotation.Log;
 import com.justdo.common.utils.PageUtils;
 import com.justdo.common.utils.R;
 import com.justdo.config.RegexConstant;
@@ -18,20 +19,21 @@ import java.util.regex.Pattern;
 /**
  * 自动回复规则
  *
- * @author niefy
- * @email niefy@qq.com
- * @date 2019-11-12 18:30:15
+ * @author chenlin
+ * @email chenlinxp@qq.com
+ * @date 2020/3/1 上午11:19
  */
 @RestController
-@RequestMapping("/manage/msgreplyrule")
+@RequestMapping("/wx/msgreplyrule")
 public class MsgReplyRuleController {
     @Autowired
     private MsgReplyRuleService msgReplyRuleService;
 
     /**
-     * 列表
+     * 获取自动回复规则列表
      */
-    @RequestMapping("/list")
+    @Log("获取自动回复规则列表")
+    @GetMapping("/list")
     @RequiresPermissions("wx:msgreplyrule:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = msgReplyRuleService.queryPage(params);
@@ -41,9 +43,10 @@ public class MsgReplyRuleController {
 
 
     /**
-     * 信息
+     * 获取自动回复规则信息
      */
-    @RequestMapping("/info/{ruleId}")
+    @Log("获取自动回复规则信息")
+    @GetMapping("/info/{ruleId}")
     @RequiresPermissions("wx:msgreplyrule:info")
     public R info(@PathVariable("ruleId") Integer ruleId){
 		MsgReplyRule msgReplyRule = msgReplyRuleService.getById(ruleId);
@@ -52,9 +55,10 @@ public class MsgReplyRuleController {
     }
 
     /**
-     * 保存
+     * 保存自动回复规则
      */
-    @RequestMapping("/save")
+    @Log("保存自动回复规则")
+    @PostMapping("/save")
     @RequiresPermissions("wx:msgreplyrule:save")
     public R save(@RequestBody MsgReplyRule msgReplyRule){
         if(WxConsts.KefuMsgType.NEWS.equals(msgReplyRule.getReplyType()) &&
@@ -67,9 +71,10 @@ public class MsgReplyRuleController {
     }
 
     /**
-     * 修改
+     * 修改自动回复规则
      */
-    @RequestMapping("/update")
+    @Log("修改自动回复规则")
+    @PostMapping("/update")
     @RequiresPermissions("wx:msgreplyrule:update")
     public R update(@RequestBody MsgReplyRule msgReplyRule){
 		msgReplyRuleService.updateById(msgReplyRule);
@@ -78,9 +83,10 @@ public class MsgReplyRuleController {
     }
 
     /**
-     * 删除
+     * 删除自动回复规则
      */
-    @RequestMapping("/delete")
+    @Log("删除自动回复规则")
+    @PostMapping("/delete")
     @RequiresPermissions("wx:msgreplyrule:delete")
     public R delete(@RequestBody Integer[] ruleIds){
 		msgReplyRuleService.removeByIds(Arrays.asList(ruleIds));

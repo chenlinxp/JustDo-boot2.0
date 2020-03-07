@@ -25,7 +25,7 @@ import java.util.Map;
  * @date 2019-06-19 16:02:20
  */
 @RestController
-@RequestMapping("/sys/config")
+@RequestMapping("/system/config")
 @AllArgsConstructor
 public class ConfigSettingsController extends AbstractController {
 
@@ -33,8 +33,8 @@ public class ConfigSettingsController extends AbstractController {
 	/**
 	 * 所有配置列表
 	 */
-	@RequestMapping("/list")
-	@RequiresPermissions("sys:config:list")
+	@GetMapping("/list")
+	@RequiresPermissions("system:config:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		QueryWrapper<ConfigSettings> queryWrapper = new QueryWrapper<>();
@@ -51,8 +51,8 @@ public class ConfigSettingsController extends AbstractController {
 	/**
 	 * 配置信息
 	 */
-	@RequestMapping("/info/{id}")
-	@RequiresPermissions("sys:config:info")
+	@GetMapping("/info/{id}")
+	@RequiresPermissions("system:config:info")
 	public R info(@PathVariable("id") Long id){
 		ConfigSettings config = sysConfigService.getById(id);
 		
@@ -63,8 +63,8 @@ public class ConfigSettingsController extends AbstractController {
 	 * 保存配置
 	 */
 	@Log("保存配置")
-	@RequestMapping("/save")
-	@RequiresPermissions("sys:config:save")
+	@PostMapping("/save")
+	@RequiresPermissions("system:config:save")
 	public R save(@RequestBody ConfigSettings config){
 		ValidatorUtils.validateEntity(config);
 
@@ -77,8 +77,8 @@ public class ConfigSettingsController extends AbstractController {
 	 * 修改配置
 	 */
 	@Log("修改配置")
-	@RequestMapping("/update")
-	@RequiresPermissions("sys:config:update")
+	@PostMapping("/update")
+	@RequiresPermissions("system:config:update")
 	public R update(@RequestBody ConfigSettings config){
 		ValidatorUtils.validateEntity(config);
 		
@@ -91,8 +91,8 @@ public class ConfigSettingsController extends AbstractController {
 	 * 删除配置
 	 */
 	@Log("删除配置")
-	@RequestMapping("/delete")
-	@RequiresPermissions("sys:config:delete")
+	@PostMapping("/delete")
+	@RequiresPermissions("system:config:delete")
 	public R delete(@RequestBody Long[] ids){
 		sysConfigService.removeById((Serializable)Arrays.asList(ids));
 		return R.ok();

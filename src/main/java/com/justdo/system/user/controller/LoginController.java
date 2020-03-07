@@ -4,6 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
+import com.justdo.common.annotation.Log;
 import com.justdo.common.base.AbstractController;
 import com.justdo.common.utils.R;
 import com.justdo.config.ConstantConfig;
@@ -36,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@RequestMapping("/system")
 public class LoginController extends AbstractController {
 
 	private final Producer producer;
@@ -47,7 +49,7 @@ public class LoginController extends AbstractController {
 	 * 验证码
 	 */
 	@SneakyThrows
-	@GetMapping("/sys/code/{time}")
+	@GetMapping("/verification/{time}")
 	public void captcha(@PathVariable("time") String time, HttpServletResponse response){
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setContentType("image/jpeg");
@@ -65,9 +67,10 @@ public class LoginController extends AbstractController {
 		IOUtils.closeQuietly(out);
 	}
 	/**
-	 * 短信验证码
+	 * 手机短信验证码
 	 */
-	@GetMapping("/mobile/code/{number}")
+	@Log("手机短信验证码")
+	@GetMapping("/mobilecode/{number}")
 	public Map<String, Object> mobile(@PathVariable("number") String number){
 
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -95,9 +98,10 @@ public class LoginController extends AbstractController {
 	}
 
 	/**
-	 * 密码登录
+	 * 账号密码登录
 	 */
-	@PostMapping("/sys/login")
+	@Log("账号密码登录")
+	@PostMapping("/login")
 	public Map<String, Object> login(@RequestBody LoginForm loginForm){
 
 		String code_key = (String) redisTemplate.opsForValue().get(ConstantConfig.NUMBER_CODE_KEY + loginForm.getRandomStr());
@@ -114,8 +118,9 @@ public class LoginController extends AbstractController {
 		queryWrapper.eq("username",loginForm.getUsername());
 		User user = userService.getOne(queryWrapper);
 
+		String password = new Sha256Hash(loginForm.getPassword(), user.getSalt()).toHex();
 		//账号不存在、密码错误
-		if(user == null || !user.getPassword().equals(new Sha256Hash(loginForm.getPassword(), user.getSalt()).toHex())) {
+		if(user == null || !user.getPassword().equals(password)) {
 			return R.error("账号或密码不正确");
 		}
 
@@ -130,8 +135,9 @@ public class LoginController extends AbstractController {
 	}
 
 	/**
-	 * 手机号码登录
+	 * 手机号码+验证码登录
 	 */
+	@Log("手机号登录")
 	@PostMapping("/mobile/login")
 	public Map<String, Object> mobileLogin(String mobile, String code){
 
@@ -168,7 +174,8 @@ public class LoginController extends AbstractController {
 	/**
 	 * 退出
 	 */
-	@PostMapping("/sys/logout")
+	@Log("退出登录")
+	@PostMapping("/logout")
 	public R logout() {
 		userTokenService.logout(getUserId());
 		return R.ok();
@@ -177,7 +184,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 未认证
 	 */
-	@PostMapping("/sys/unauthorized")
+	@PostMapping("/unauthorized")
 	public R unauthorized() {
 		return R.error(HttpStatus.SC_UNAUTHORIZED, "unauthorized");
 	}

@@ -1,5 +1,6 @@
 package com.justdo.modules.wx.menu.controller;
 
+import com.justdo.common.base.AbstractController;
 import com.justdo.common.utils.R;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  * WxJava开发文档：https://github.com/Wechat-Group/WxJava/wiki/MP_自定义菜单管理
  */
 @RestController
-@RequestMapping("/manage/wxAccessToken")
+@RequestMapping("/wx/accessToken")
 @RequiredArgsConstructor
-public class AccessTokenController {
+public class AccessTokenController  extends AbstractController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     private final WxMpService wxService;
 

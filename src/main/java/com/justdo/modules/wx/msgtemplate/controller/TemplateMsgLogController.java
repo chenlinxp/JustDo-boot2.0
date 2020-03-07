@@ -1,5 +1,6 @@
 package com.justdo.modules.wx.msgtemplate.controller;
 
+import com.justdo.common.annotation.Log;
 import com.justdo.common.utils.PageUtils;
 import com.justdo.common.utils.R;
 import com.justdo.modules.wx.msgtemplate.entity.TemplateMsgLog;
@@ -20,15 +21,16 @@ import java.util.Map;
  * @date 2020/2/29 下午9:07
  */
 @RestController
-@RequestMapping("/manage/templatemsglog")
+@RequestMapping("/wx/templatemsglog")
 public class TemplateMsgLogController {
     @Autowired
     private TemplateMsgLogService templateMsgLogService;
 
     /**
-     * 列表
+     * 模版消息发送记录列表
      */
-    @RequestMapping("/list")
+    @Log("模版消息发送记录列表")
+    @GetMapping("/list")
     @RequiresPermissions("wx:templatemsglog:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = templateMsgLogService.queryPage(params);
@@ -38,9 +40,10 @@ public class TemplateMsgLogController {
 
 
     /**
-     * 信息
+     * 模版消息发送记录详情
      */
-    @RequestMapping("/info/{logId}")
+    @Log("模版消息发送记录详情")
+    @GetMapping("/info/{logId}")
     @RequiresPermissions("wx:templatemsglog:info")
     public R info(@PathVariable("logId") Integer logId){
 		TemplateMsgLog templateMsgLog = templateMsgLogService.getById(logId);
@@ -49,9 +52,10 @@ public class TemplateMsgLogController {
     }
 
     /**
-     * 保存
+     * 保存模版消息发送记录
      */
-    @RequestMapping("/save")
+    @Log("保存模版消息发送记录")
+    @PostMapping("/save")
     @RequiresPermissions("wx:templatemsglog:save")
     public R save(@RequestBody TemplateMsgLog templateMsgLog){
 		templateMsgLogService.save(templateMsgLog);
@@ -60,9 +64,10 @@ public class TemplateMsgLogController {
     }
 
     /**
-     * 修改
+     * 修改模版消息发送记录
      */
-    @RequestMapping("/update")
+    @Log("修改模版消息发送记录")
+    @PostMapping("/update")
     @RequiresPermissions("wx:templatemsglog:update")
     public R update(@RequestBody TemplateMsgLog templateMsgLog){
 		templateMsgLogService.updateById(templateMsgLog);
@@ -71,9 +76,10 @@ public class TemplateMsgLogController {
     }
 
     /**
-     * 删除
+     * 删除模版消息发送记录
      */
-    @RequestMapping("/delete")
+    @Log("删除模版消息发送记录")
+    @PostMapping("/delete")
     @RequiresPermissions("wx:templatemsglog:delete")
     public R delete(@RequestBody Integer[] logIds){
 		templateMsgLogService.removeByIds(Arrays.asList(logIds));

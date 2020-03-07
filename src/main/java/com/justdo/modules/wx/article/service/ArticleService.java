@@ -30,7 +30,7 @@ public interface ArticleService extends IService<Article> {
      * 添加或编辑文章,同名文章不可重复添加
      * @param article
      */
-
+    @Override
     boolean save(Article article);
 
     /**

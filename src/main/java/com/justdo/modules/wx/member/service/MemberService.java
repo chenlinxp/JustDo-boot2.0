@@ -1,10 +1,14 @@
 package com.justdo.modules.wx.member.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.justdo.common.utils.PageUtils;
+import com.justdo.modules.wx.article.entity.Article;
 import com.justdo.modules.wx.member.entity.Member;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 公众号用户
@@ -32,10 +36,17 @@ public interface MemberService extends IService<Member> {
     List<Member> getUserList(int pageNumber, String nickname);
 
     /**
+     * 按条件分页查询
+     * @param params
+     * @return
+     */
+    PageUtils queryPage(Map<String, Object> params);
+    /**
      * 计数
      *
      * @return
      */
+    @Override
     int count();
 
     /**

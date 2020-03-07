@@ -1,5 +1,7 @@
 package com.justdo.modules.wx.menu.controller;
 
+import com.justdo.common.annotation.Log;
+import com.justdo.common.base.AbstractController;
 import com.justdo.common.utils.R;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
@@ -17,15 +19,16 @@ import org.springframework.web.bind.annotation.*;
  * WxJava开发文档：https://github.com/Wechat-Group/WxJava/wiki/MP_自定义菜单管理
  */
 @RestController
-@RequestMapping("/manage/wxMenu")
+@RequestMapping("/wx/menu")
 @RequiredArgsConstructor
-public class MenuController {
+public class MenuController  extends AbstractController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     private final WxMpService wxService;
 
     /**
      * 获取公众号菜单
      */
+    @Log("获取公众号菜单")
     @GetMapping("/getMenu")
     public R getMenu() throws WxErrorException {
         WxMpMenu wxMpMenu = wxService.getMenuService().menuGet();
@@ -35,6 +38,7 @@ public class MenuController {
     /**
      * 创建、更新菜单
      */
+    @Log("创建、更新菜单")
     @PostMapping("/updateMenu")
     @RequiresPermissions("wx:menu:save")
     public R updateMenu(@RequestBody WxMenu wxMenu) throws WxErrorException{

@@ -37,7 +37,7 @@ public interface ResourceService extends IService<Resource> {
 	/**
 	 * 获取用户菜单列表
 	 */
-	List<Resource> getUserMenuList(Long userId);
+	List<Resource> getUserResourceList(Long userId);
 
 	/**
 	 * 查询用户的权限列表
