@@ -158,7 +158,7 @@ public class UserController extends AbstractController {
 	 */
 	@Log("修改密码")
 	@PostMapping("/password")
-	@RequiresPermissions("system:user:password")
+	//@RequiresPermissions("system:user:password")
 	public R password(@RequestBody PasswordForm passwordForm){
 		Assert.isBlank(passwordForm.getNewPassword(), "新密码不为能空");
 
@@ -180,7 +180,7 @@ public class UserController extends AbstractController {
 	 * 用户导航菜单
 	 */
 	@GetMapping("/resource")
-	@RequiresPermissions("system:user:resource")
+	//@RequiresPermissions("system:user:resource")
 	public R nav(){
 		List<Resource> resourceList = resourceService.getUserResourceList(getUserId());
 		Set<String> permissions = shiroService.getUserPermissions(getUserId());

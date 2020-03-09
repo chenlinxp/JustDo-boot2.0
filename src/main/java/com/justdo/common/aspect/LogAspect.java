@@ -85,7 +85,8 @@ public class LogAspect {
 		systemLog.setIp(IPUtils.getIpAddr(request));
 
 		//用户名
-		String username = ((User) SecurityUtils.getSubject().getPrincipal()).getUsername();
+		String username = "admin";//((User) SecurityUtils.getSubject().getPrincipal()).getUsername();
+
 		systemLog.setUsername(username);
 
 		systemLog.setTime(time);

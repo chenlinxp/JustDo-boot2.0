@@ -28,6 +28,20 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+
+    @Bean("lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
+        proxyCreator.setProxyTargetClass(true);
+        return proxyCreator;
+    }
+
+
     @Bean("sessionManager")
     public SessionManager sessionManager(){
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
@@ -39,9 +53,10 @@ public class ShiroConfig {
     @Bean("securityManager")
     public SecurityManager securityManager(OAuth2Realm oAuth2Realm, SessionManager sessionManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(oAuth2Realm);
+
         securityManager.setSessionManager(sessionManager);
 
+        securityManager.setRealm(oAuth2Realm);
         return securityManager;
     }
 
@@ -67,26 +82,13 @@ public class ShiroConfig {
         filterMap.put("/system/mobilecode/**", "anon"); //短信验证码
         filterMap.put("/system/mobile/login/**", "anon"); //手机短信登录
         filterMap.put("/system/**", "oauth2");
-        filterMap.put("/manage/**", "oauth2");
+        filterMap.put("/wx/**", "oauth2");
         filterMap.put("/v2/**", "anon");
         filterMap.put("/**", "anon");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
-
-
         return shiroFilter;
     }
 
-    @Bean("lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
-
-    @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
-        proxyCreator.setProxyTargetClass(true);
-        return proxyCreator;
-    }
 
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
