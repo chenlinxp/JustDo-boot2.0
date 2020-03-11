@@ -1,0 +1,61 @@
+# Tomcat
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+        max-connections: 10000
+    port: 8088
+    servlet:
+        context-path: /justdo
+        session:
+               timeout: 1800
+
+spring:
+    application:
+        name: justdo
+    profiles:
+        active: dev
+    http:
+        encoding:
+                force-response: true
+    # jackson时间格式化
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm
+    servlet:
+        multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+            enabled: true
+    mvc:
+        throw-exception-if-no-handler-found: true
+    banner:
+          location:classpath: banner.txt
+    resources:
+         add-mappings: false
+
+#mybatis
+mybatis-plus:
+    mapper-locations: classpath:mapper/system/*Mapper.xml,classpath:mapper/modules/**/*Mapper.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    typeAliasesPackage: com.justdo.modules.*.entity,com.justdo.system.*.entity,com.justdo.modules.wx.*.entity
+    global-config:
+        #数据库相关配置
+        db-config:
+            #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+            id-type: none
+            logic-delete-value: -1
+            logic-not-delete-value: 0
+        banner: false
+    #原生配置
+    configuration:
+        map-underscore-to-camel-case: true
+        cache-enabled: true
+        call-setters-on-nulls: true
+        jdbc-type-for-null: 'null'
+
+
+
+
+

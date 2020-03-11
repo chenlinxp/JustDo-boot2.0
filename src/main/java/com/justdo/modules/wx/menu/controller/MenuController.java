@@ -28,8 +28,9 @@ public class MenuController  extends AbstractController {
     /**
      * 获取公众号菜单
      */
-    @Log("获取公众号菜单")
+    //@Log("获取公众号菜单")
     @GetMapping("/getMenu")
+    @RequiresPermissions("wx:menu:list")
     public R getMenu() throws WxErrorException {
         WxMpMenu wxMpMenu = wxService.getMenuService().menuGet();
         return R.ok().put(wxMpMenu);
@@ -38,7 +39,7 @@ public class MenuController  extends AbstractController {
     /**
      * 创建、更新菜单
      */
-    @Log("创建、更新菜单")
+   // @Log("创建、更新菜单")
     @PostMapping("/updateMenu")
     @RequiresPermissions("wx:menu:save")
     public R updateMenu(@RequestBody WxMenu wxMenu) throws WxErrorException{
