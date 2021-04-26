@@ -34,7 +34,7 @@
 		<aliyun.oss.version>2.5.0</aliyun.oss.version>
 		<qcloud.cos.version>4.4</qcloud.cos.version>
 		<commons.fileupload.version>1.3.3</commons.fileupload.version>
-		<commons.io.version>2.5</commons.io.version>
+		<commons.io.version>2.7</commons.io.version>
 		<commons.configuration.version>1.10</commons.configuration.version>
 		<commons.lang3.version>3.6</commons.lang3.version>
 		<weixin-java.version>3.6.0</weixin-java.version>
